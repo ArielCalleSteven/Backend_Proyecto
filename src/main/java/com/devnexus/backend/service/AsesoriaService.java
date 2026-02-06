@@ -19,6 +19,9 @@ public class AsesoriaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public Asesoria guardarAsesoria(AsesoriaDTO dto) {
         Asesoria asesoria = new Asesoria();
         
@@ -35,7 +38,30 @@ public class AsesoriaService {
         asesoria.setProgramador(programador);
         asesoria.setEstudiante(estudiante);
 
-        return asesoriaRepository.save(asesoria);
+        Asesoria guardada = asesoriaRepository.save(asesoria);
+
+        try {
+            String asuntoProg = "🔔 Nueva Solicitud de Asesoría - Portafolio";
+            String mensajeProg = "Hola " + programador.getName() + ",\n\n" +
+                                 "Tienes una nueva solicitud de asesoría pendiente.\n" +
+                                 "Estudiante: " + estudiante.getName() + "\n" +
+                                 "Tema: " + dto.getTopic() + "\n" +
+                                 "Fecha: " + dto.getDate() + " a las " + dto.getTime() + "\n\n" +
+                                 "Ingresa a tu panel para aceptarla o rechazarla.";
+            emailService.sendEmail(programador.getEmail(), asuntoProg, mensajeProg);
+
+            String asuntoEst = "✅ Solicitud Enviada Exitosamente";
+            String mensajeEst = "Hola " + estudiante.getName() + ",\n\n" +
+                                "Tu solicitud de asesoría con " + programador.getName() + " ha sido enviada.\n" +
+                                "Estado actual: PENDIENTE.\n" +
+                                "Te notificaremos por correo cuando el programador responda.";
+            emailService.sendEmail(estudiante.getEmail(), asuntoEst, mensajeEst);
+
+        } catch (Exception e) {
+            System.err.println("⚠️ No se pudo enviar el correo (pero la cita se guardó): " + e.getMessage());
+        }
+
+        return guardada;
     }
 
     public Asesoria responderSolicitud(Long id, String estado, String respuesta) {
@@ -45,7 +71,22 @@ public class AsesoriaService {
         asesoria.setStatus(estado);
         asesoria.setProgrammerResponse(respuesta); 
 
-        return asesoriaRepository.save(asesoria);
+        Asesoria actualizada = asesoriaRepository.save(asesoria);
+
+        try {
+            String asunto = "📢 Actualización de tu Asesoría: " + estado;
+            String mensaje = "Hola " + asesoria.getEstudiante().getName() + ",\n\n" +
+                             "El estado de tu asesoría con " + asesoria.getProgramador().getName() + " ha cambiado.\n" +
+                             "NUEVO ESTADO: " + estado + "\n\n" +
+                             "Mensaje del programador: " + respuesta;
+            
+            emailService.sendEmail(asesoria.getEstudiante().getEmail(), asunto, mensaje);
+
+        } catch (Exception e) {
+            System.err.println("⚠️ No se pudo enviar el correo de respuesta: " + e.getMessage());
+        }
+
+        return actualizada;
     }
 
     public List<AsesoriaDTO> listarPorEmailEstudiante(String email) {
