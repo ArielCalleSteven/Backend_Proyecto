@@ -32,16 +32,15 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                // 1. Lo que ya estaba bien (Login y Documentación)
+                // 1. Acceso libre total a Login y Swagger
                 .requestMatchers("/api/usuarios/login", "/api/usuarios/registro", "/api/usuarios/google").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 
-                // 2. 🔥 REFUERZO PARA PROGRAMADOR: Permitir GET y PUT en toda la API y rutas raíz
-                // A veces Angular llama a /usuarios o /asesorias sin el /api/ por error.
-                .requestMatchers(HttpMethod.GET, "/api/**", "/usuarios/**", "/asesorias/**", "/proyectos/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/**", "/usuarios/**", "/asesorias/**", "/proyectos/**").permitAll()
-
-                // Todo lo demás (POST de creación o DELETE) sigue pidiendo Token
+                // 2. 🔥 SOLUCIÓN RADICAL: Permitir TODO el tráfico GET y PUT en la API
+                // Esto evita que el undefined o el NaN te disparen un 403.
+                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
+                
                 .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -58,9 +57,8 @@ public class SecurityConfig {
         )); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         
-        // 🔥 CAMBIO CLAVE: Permitir TODOS los headers para que no choque con Angular
+        // 🔥 IMPORTANTE: Permitir TODOS los headers para que Angular no choque
         configuration.setAllowedHeaders(List.of("*")); 
-        
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
