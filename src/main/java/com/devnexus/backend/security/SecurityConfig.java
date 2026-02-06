@@ -32,18 +32,16 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                // 1. Acceso libre a Login, Registro y Documentación
+                // 1. Lo que ya estaba bien (Login y Documentación)
                 .requestMatchers("/api/usuarios/login", "/api/usuarios/registro", "/api/usuarios/google").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 
-                // 2. 🔥 SOLUCIÓN CARGA INFINITA: Permitir leer (GET) cualquier cosa de la API
-                // Esto incluye asesorías, horarios, etc., para que el módulo cargue de una.
-                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                // 2. 🔥 REFUERZO PARA PROGRAMADOR: Permitir GET y PUT en toda la API y rutas raíz
+                // A veces Angular llama a /usuarios o /asesorias sin el /api/ por error.
+                .requestMatchers(HttpMethod.GET, "/api/**", "/usuarios/**", "/asesorias/**", "/proyectos/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/**", "/usuarios/**", "/asesorias/**", "/proyectos/**").permitAll()
 
-                // 3. Permitir editar (PUT) cualquier cosa de la API
-                .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
-                
-                // El resto (POST, DELETE) sigue pidiendo Token por seguridad
+                // Todo lo demás (POST de creación o DELETE) sigue pidiendo Token
                 .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -59,7 +57,10 @@ public class SecurityConfig {
             "https://portafolio-calle-torres-2025.web.app"
         )); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        
+        // 🔥 CAMBIO CLAVE: Permitir TODOS los headers para que no choque con Angular
+        configuration.setAllowedHeaders(List.of("*")); 
+        
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
