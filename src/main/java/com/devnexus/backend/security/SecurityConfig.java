@@ -32,14 +32,21 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
+                // 1. Permitir Login y Registro
                 .requestMatchers("/api/usuarios/login", "/api/usuarios/registro", "/api/usuarios/google").permitAll()
                 
+                // 2. Permitir VER listas (GET)
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/proyectos/**").permitAll()
+
+                // 3. 🔥 LO NUEVO: Permitir EDITAR usuarios y proyectos (PUT)
+                .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/proyectos/**").permitAll()
                 
+                // 4. Permitir Swagger
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 
-                // Todo lo demás (crear, editar, borrar) sí pide Token
+                // El resto (como BORRAR) sigue pidiendo Token
                 .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -56,6 +63,7 @@ public class SecurityConfig {
         )); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type")); // Headers importantes
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
