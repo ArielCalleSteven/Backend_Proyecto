@@ -32,18 +32,15 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                // 1. Público: Login, Registro y Swagger
+                // 1. Acceso libre total a Login y Swagger
                 .requestMatchers("/api/usuarios/login", "/api/usuarios/registro", "/api/usuarios/google").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 
-                // 2. 🔥 PERMISO TOTAL A LA API: Evita el 403 si el ID llega mal
-                // Permitimos todos los métodos que usa el AdvisoryService
+                // 2. 🔥 SOLUCIÓN RADICAL: Permitir TODO el tráfico GET y PUT en la API
+                // Esto evita que el undefined o el NaN te disparen un 403.
                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "/api/**").permitAll() 
-                .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
-
+                
                 .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -59,6 +56,8 @@ public class SecurityConfig {
             "https://portafolio-calle-torres-2025.web.app"
         )); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        
+        // 🔥 IMPORTANTE: Permitir TODOS los headers para que Angular no choque
         configuration.setAllowedHeaders(List.of("*")); 
         configuration.setAllowCredentials(true);
 

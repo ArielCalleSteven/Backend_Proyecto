@@ -38,8 +38,6 @@ public class UsuarioController {
                 response.put("token", token);
                 response.put("usuario", user);
                 
-                // 🔥 AQUÍ ESTÁ EL FIX: FORZAMOS EL ENVÍO DEL ROL
-                // Si user.getRole() es null, enviamos "student" por defecto para que no rompa.
                 response.put("role", user.getRole() != null ? user.getRole() : "student");
                 
                 return ResponseEntity.ok(response);
@@ -59,7 +57,6 @@ public class UsuarioController {
         response.put("usuario", user);
         
         // 🔥 FIX OBLIGATORIO: FORZAMOS EL ROL AQUÍ TAMBIÉN
-        // Esto garantiza que Angular reciba "role": "programmer" en la raíz del JSON.
         response.put("role", user.getRole() != null ? user.getRole() : "student");
         
         return ResponseEntity.ok(response);
@@ -94,4 +91,6 @@ public class UsuarioController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    // COMENTARIO PARA FORZAR ACTUALIZACIÓN EN RAILWAY - V2
 }
