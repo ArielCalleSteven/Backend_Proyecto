@@ -73,18 +73,7 @@ public class AsesoriaService {
 
         Asesoria actualizada = asesoriaRepository.save(asesoria);
 
-        try {
-            String asunto = "📢 Actualización de tu Asesoría: " + estado;
-            String mensaje = "Hola " + asesoria.getEstudiante().getName() + ",\n\n" +
-                             "El estado de tu asesoría con " + asesoria.getProgramador().getName() + " ha cambiado.\n" +
-                             "NUEVO ESTADO: " + estado + "\n\n" +
-                             "Mensaje del programador: " + respuesta;
-            
-            emailService.sendEmail(asesoria.getEstudiante().getEmail(), asunto, mensaje);
 
-        } catch (Exception e) {
-            System.err.println("⚠️ No se pudo enviar el correo de respuesta: " + e.getMessage());
-        }
 
         return actualizada;
     }
