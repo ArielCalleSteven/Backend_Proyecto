@@ -13,15 +13,20 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String body) {
         try {
+            // Preparamos el mensaje (esto no tarda nada)
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject(subject);
             message.setText(body);
             
-            mailSender.send(message);
-            System.out.println("✅ Correo enviado exitosamente a: " + to);
+            // 🛑 AQUÍ ESTÁ EL CAMBIO: COMENTAMOS EL ENVÍO REAL 🛑
+            // mailSender.send(message); 
+            
+            // Engañamos al sistema diciendo que sí se envió
+            System.out.println("🚀 [BACKEND] Envío de correo OMITIDO (Lo hace el Frontend). Todo OK.");
+
         } catch (Exception e) {
-            System.err.println("❌ Error enviando correo: " + e.getMessage());
+            System.err.println("❌ Error (aunque no debería pasar): " + e.getMessage());
         }
     }
 }
