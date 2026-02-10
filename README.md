@@ -1,8 +1,5 @@
 # 🎓 Net_Academy v2.0: Sistema de Gestión de Portafolios
 
-![Banner](https://img.youtube.com/vi/k_3y3pPgyDU/hqdefault.jpg)
-*(Clic en la imagen para ver la Demostración Funcional)*
-
 **Proyecto Integrador - Fase II**
 **Asignatura:** Programación y Plataformas Web
 **Estado:** Finalizado 🚀
@@ -83,9 +80,6 @@ A continuación, se presenta la demostración completa del flujo: Login, Gestió
 | **Docente** | Ing. Cristian Timbi Sisalima |
 | **Desarrolladores** | Ariel Calle & Juan Diego Torres |
 | **Periodo** | Marzo 2024 – Agosto 2024 |
-
----
-*© 2024 Net_Academy Development Team*
 
 ---
 *© 2024 Net_Academy Development Team*
