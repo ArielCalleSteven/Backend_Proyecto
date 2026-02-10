@@ -1,123 +1,91 @@
-# 🎓 Net_Academy v2.0: Sistema Integral de Gestión de Portafolios
+# 🎓 Net_Academy v2.0: Sistema de Gestión de Portafolios
 
 ![Banner](https://img.youtube.com/vi/k_3y3pPgyDU/hqdefault.jpg)
-*(Captura del sistema funcionando)*
+*(Clic en la imagen para ver la Demostración Funcional)*
 
-**Proyecto Integrador - Fase II (Backend, Seguridad & Integración)**
+**Proyecto Integrador - Fase II**
 **Asignatura:** Programación y Plataformas Web
 **Estado:** Finalizado 🚀
 
 ---
 
-## 📑 Tabla de Contenidos
+## 🔗 Enlaces a Entregables (Código Fuente)
 
-1. [Enlaces a Entregables](#1-enlaces-a-entregables-código-fuente)
-2. [Información Institucional](#2-información-institucional)
-3. [Resumen Ejecutivo](#3-resumen-ejecutivo)
-4. [Arquitectura de Software](#4-arquitectura-de-software-full-stack)
-5. [Ingeniería Backend](#5-ingeniería-y-desarrollo-backend)
-6. [Integración Frontend](#6-integración-frontend-angular)
-7. [Documentación API (REST)](#7-documentación-de-api-openapi)
-8. [Video Demostrativo](#8-video-de-presentación-funcional)
+Cumpliendo con la arquitectura de microservicios, el sistema se divide en:
+
+* **🖥️ FRONTEND (Angular + Firebase):** [Ver Repositorio](https://github.com/ArielCalleSteven/Proyecto-Formulario) | [🔗 Ver App en Vivo](https://portafolio-calle-torres-2025.web.app/login)
+* **⚙️ BACKEND (Spring Boot + Railway):** [Ver Repositorio](https://github.com/ArielCalleSteven/Backend_Proyecto) | [🔗 Ver Swagger API](https://backendproyecto-production-1c31.up.railway.app/swagger-ui/index.html)
 
 ---
 
-## 1. Enlaces a Entregables (Código Fuente)
+## 1. Descripción Técnica del Desarrollo (Integración Backend)
 
-Cumpliendo con la arquitectura de microservicios y despliegue desacoplado, el código fuente se divide en:
+La plataforma **Net_Academy v2.0** migró de una arquitectura Serverless a una infraestructura **Monolítica Robusta** en Java.
 
-### 🖥️ FRONTEND (Interfaz de Usuario)
-* **Repositorio GitHub:** [Proyecto-Formulario (Angular)](https://github.com/ArielCalleSteven/Proyecto-Formulario)
-* **Despliegue (Firebase):** [🔗 Ver App en Vivo](https://portafolio-calle-torres-2025.web.app/login)
+### 🏗️ Arquitectura de Software
+* **Backend:** Java 17, Spring Boot 3, Spring Security 6.
+* **Base de Datos:** MySQL (Relacional) gestionada en Railway.
+* **Seguridad:** Implementación de **JWT (JSON Web Tokens)** para autenticación *stateless* y encriptación de contraseñas con **BCrypt**.
+* **Integración:** Comunicación vía API RESTful con el cliente Angular mediante interceptores HTTP.
 
-### ⚙️ BACKEND (Lógica y Datos)
-* **Repositorio GitHub:** [Backend_Proyecto (Spring Boot)](https://github.com/ArielCalleSteven/Backend_Proyecto)
-* **Documentación API (Swagger):** [🔗 Ver Documentación REST](https://backendproyecto-production-1c31.up.railway.app/swagger-ui/index.html)
+### 🧩 Patrones y Tecnologías
+* **Persistencia:** Uso de **Hibernate/JPA** para manejo de transacciones ACID y relaciones estrictas (1:N entre Usuarios y Proyectos).
+* **Business Intelligence:** Generación de reportes PDF dinámicos (Blobs) desde el servidor.
+* **Notificaciones:** Integración asíncrona con EmailJS para alertas de correo.
 
 ---
 
-## 2. Información Institucional
+## 2. Documentación de Endpoints REST
+
+La API cumple con el estándar **OpenAPI 3.0**. Toda la documentación es interactiva y permite probar los métodos `GET`, `POST`, `PUT`, `DELETE` en tiempo real.
+
+* **URL de Acceso:** [Swagger UI - Net_Academy](https://backendproyecto-production-1c31.up.railway.app/swagger-ui/index.html)
+* **Controladores Principales:**
+    * `AuthController`: Login y Registro (Generación de Token).
+    * `ProgrammerController`: Gestión de perfiles y filtrado.
+    * `AdvisoryController`: Agendamiento y descarga de reportes PDF.
+
+---
+
+## 3. Guía de Usuario (Manual Funcional)
+
+### 👨‍💼 ROL: ADMINISTRADOR
+1.  **Ingreso:** Inicie sesión con credenciales de administrador. Accederá a la **"Consola de Sistema"** (Pantalla negra tipo terminal).
+2.  **Filtrado:** Use las pestañas superiores `[FRONTEND]`, `[BACKEND]`, `[DEVOPS]` para filtrar programadores por especialidad.
+3.  **Gestión:**
+    * **Editar (✏️):** Modifique datos del programador.
+    * **Horario (📅):** Asigne bloques de disponibilidad.
+    * **Reporte PDF (📄):** Haga clic en el botón de descarga para generar el historial de asesorías del usuario.
+
+### 👨‍💻 ROL: PROGRAMADOR
+1.  **Perfil:** Al ingresar, verá su Dashboard personal con métricas ("Incoming Requests").
+2.  **Solicitudes:** En la tabla inferior, revise las citas pendientes. Puede **Aceptar** o **Rechazar** la asesoría.
+3.  **Edición:** Puede actualizar su biografía, foto y enlaces (GitHub/LinkedIn) desde el botón de configuración.
+
+---
+
+## 4. Video de Presentación Funcional
+
+A continuación, se presenta la demostración completa del flujo: Login, Gestión de Usuarios, Reserva de Citas, Notificación por Correo y Descarga de Reportes.
+
+[![Ver Video en YouTube](https://img.youtube.com/vi/k_3y3pPgyDU/hqdefault.jpg)](https://www.youtube.com/watch?v=k_3y3pPgyDU)
+
+> **Nota:** El video demuestra la integración exitosa entre el Frontend (Firebase) y el Backend (Railway).
+
+---
+
+## 5. Información Institucional
 
 | Categoría | Detalle |
 | --- | --- |
 | **Universidad** | Universidad Politécnica Salesiana - Sede Cuenca |
 | **Carrera** | Computación / Ingeniería de Software |
-| **Asignatura** | Programación y Plataformas Web |
 | **Docente** | Ing. Cristian Timbi Sisalima |
 | **Desarrolladores** | Ariel Calle & Juan Diego Torres |
 | **Periodo** | Marzo 2024 – Agosto 2024 |
 
 ---
-
-## 3. Resumen Ejecutivo
-
-La evolución de **Net_Academy** hacia su versión 2.0 representa el salto de un prototipo a un sistema empresarial robusto. Se ha migrado a una arquitectura **Backend Monolítica** en Java con **Spring Boot**, garantizando integridad referencial mediante SQL y seguridad avanzada con **JWT**.
-
-El sistema integra capacidades de **Business Intelligence** (Dashboards y Reportes PDF), notificaciones asíncronas vía correo electrónico y una interfaz moderna en Angular desplegada en la nube.
-
----
-
-## 4. Arquitectura de Software (Full Stack)
-
-El sistema utiliza una arquitectura en capas, comunicándose vía API REST.
-
-### 🏗️ Stack Tecnológico
-* **Backend:** Java 17, Spring Boot 3, Spring Security, Hibernate.
-* **Frontend:** Angular 16+, TailwindCSS, DaisyUI.
-* **Base de Datos:** MySQL (Producción en Railway).
-* **Servicios Externos:** EmailJS (Notificaciones).
-
-### 🔄 Flujo de Datos
-`Cliente (Angular)` ➡ `Interceptor JWT` ➡ `Controller` ➡ `Service Layer` ➡ `Repository (JPA)` ➡ `Base de Datos`
-
----
-
-## 5. Ingeniería y Desarrollo Backend
-
-### 5.1. Persistencia de Datos
-Migración de NoSQL a **Relacional (SQL)**. Se implementaron relaciones estrictas:
-* `User` (1) ↔ (N) `Project`
-* `Programmer` (N) ↔ (M) `Student` (Mediante tabla `Appointment`)
-
-### 5.2. Seguridad (Spring Security & JWT)
-* **Stateless Authentication:** Uso de JSON Web Tokens.
-* **Role-Based Access Control (RBAC):**
-    * `ROLE_ADMIN`: Acceso total a dashboards y reportes.
-    * `ROLE_DEV`: Gestión de perfil y horarios propios.
-* **Password Hashing:** BCryptPasswordEncoder.
-
-### 5.3. Funcionalidades Clave
-* **Reportes PDF:** Generación de archivos binarios (`Blob`) desde el backend para historiales de asesorías.
-* **Notificaciones:** Envío de correos automáticos al confirmar/rechazar citas.
-* **Validación de Horarios:** Lógica para evitar solapamiento de citas.
-
----
-
-## 6. Integración Frontend (Angular)
-
-El cliente web consume la API REST y gestiona la experiencia de usuario:
-* **Guards:** Protección de rutas (`CanActivate`) según el Rol.
-* **Interceptores:** Inyección automática del Token en cada petición HTTP.
-* **Visualización:** Dashboards con gráficos dinámicos y tablas interactivas.
-
----
-
-## 7. Documentación de API (OpenAPI)
-
-La API está documentada bajo el estándar OpenAPI 3.0 (Swagger).
-
-* **URL de Documentación:** [Swagger UI - Net_Academy](https://backendproyecto-production-1c31.up.railway.app/swagger-ui/index.html)
-* **Funcionalidad:** Permite probar los endpoints (`GET`, `POST`, `PUT`, `DELETE`) en tiempo real contra la base de datos de producción.
-
----
-
-## 8. Video de Presentación Funcional
-
-A continuación, se presenta la demostración del flujo completo del sistema (Reserva, Notificación y Reportes):
-
-[![Ver Video en YouTube](https://img.youtube.com/vi/k_3y3pPgyDU/hqdefault.jpg)](https://www.youtube.com/watch?v=k_3y3pPgyDU)
-
-*(Clic en la imagen para ver el video)*
+*© 2024 Net_Academy Development Team*
 
 ---
 *© 2024 Net_Academy Development Team*
